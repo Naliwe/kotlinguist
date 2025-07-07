@@ -8,11 +8,14 @@ import java.io.File
 
 private const val MAX_SHORT_STRING_WORDS = 3
 
+private val json = Json { prettyPrint = true }
+
 fun contextualize(text: String): String =
     if (text.split(" ").size <= 1) "Label: $text" else "This label is: '$text'"
 
 fun extractDecontextualized(translated: String): String {
     val parts = translated.split(":")
+
     return if (parts.size > 1) parts.last().trim().trim('"', '\'') else translated.trim()
 }
 
@@ -28,9 +31,11 @@ fun collectShortStrings(node: JsonElement, shortStrings: MutableSet<String>) {
 
 fun batchTranslate(strings: Set<String>, translator: Translator): Map<String, String> {
     if (strings.isEmpty()) return emptyMap()
+
     val sorted = strings.toList().sorted()
     val contextualized = sorted.map(::contextualize)
     val translated = translator.translate(contextualized)
+
     return sorted.zip(translated.map(::extractDecontextualized)).toMap()
 }
 
@@ -39,13 +44,14 @@ fun translateJson(node: JsonElement, shortMap: Map<String, String>, translator: 
     is JsonArray -> JsonArray(node.map { translateJson(it, shortMap, translator) })
     is JsonPrimitive -> if (node.isString) {
         val text = node.content
-        val translated = shortMap[text] ?: translator.translate(listOf(contextualize(text)))[0].let(::extractDecontextualized)
+        val translated =
+            shortMap[text] ?: translator.translate(listOf(contextualize(text)))[0].let(::extractDecontextualized)
         JsonPrimitive(translated)
     } else node
 }
 
 fun translateFile(file: File, langCode: String, translator: Translator, outputDir: File): String {
-    val outputPath = File(outputDir, "$langCode-${'$'}{langCode.uppercase()}/${file.name}")
+    val outputPath = File(outputDir, "$langCode-${langCode.uppercase()}/${file.name}")
     if (outputPath.exists()) return "⏩ Skipped ${file.name} → ${langCode} (exists)"
 
     val data = Json.parseToJsonElement(file.readText())
@@ -56,7 +62,7 @@ fun translateFile(file: File, langCode: String, translator: Translator, outputDi
     val translated = translateJson(data, shortMap, translator)
 
     outputPath.parentFile.mkdirs()
-    outputPath.writeText(Json { prettyPrint = true }.encodeToString(JsonElement.serializer(), translated))
+    outputPath.writeText(json.encodeToString(JsonElement.serializer(), translated))
 
     return "✅ ${file.name} → ${langCode}"
 }
@@ -64,7 +70,8 @@ fun translateFile(file: File, langCode: String, translator: Translator, outputDi
 fun main(args: Array<String>) {
     val parser = ArgParser("kotlinguist")
     val inputDirArg by parser.option(ArgType.String, shortName = "i", description = "Input directory").default("en")
-    val outputDirArg by parser.option(ArgType.String, shortName = "o", description = "Output directory").default("translated")
+    val outputDirArg by parser.option(ArgType.String, shortName = "o", description = "Output directory")
+        .default("translated")
     parser.parse(args)
 
     val inputDir = File(inputDirArg)

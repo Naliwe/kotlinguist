@@ -11,9 +11,10 @@ repositories {
 dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.cli)
+
     implementation(libs.onnxruntime)
     implementation(libs.tokenizers)
-    implementation(libs.kotlinx.cli)
 }
 
 application {

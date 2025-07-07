@@ -1,7 +1,9 @@
 package me.naliwe.kotlinguist
 
-import ai.onnxruntime.*
 import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer
+import ai.onnxruntime.OnnxTensor
+import ai.onnxruntime.OrtEnvironment
+import ai.onnxruntime.OrtSession
 
 /**
  * Simple translator backed by an ONNX model exported from HuggingFace.
@@ -18,6 +20,7 @@ class OnnxTranslator(
 
     override fun translate(texts: List<String>): List<String> {
         val results = mutableListOf<String>()
+
         for (text in texts) {
             val enc = tokenizer.encode(text)
             val ids = enc.ids
