@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
-    kotlin("plugin.serialization") version "1.9.22"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
     application
 }
 
@@ -9,11 +9,11 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    implementation("ai.onnxruntime:onnxruntime:1.15.1")
-    implementation("com.github.huggingface:tokenizers:0.13.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.6")
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.onnxruntime)
+    implementation(libs.tokenizers)
+    implementation(libs.kotlinx.cli)
 }
 
 application {
