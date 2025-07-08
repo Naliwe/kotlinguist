@@ -30,3 +30,21 @@ This project includes [ONNX Runtime](https://github.com/microsoft/onnxruntime), 
 - Bundled for convenience in `resources/native` (`onnxruntime.dll` / `libonnxruntime.so`)
 
 A copy of the original license is included in [`LICENSE-ONNX.txt`](./src/main/resources/native/LICENSE-ONNX.txt).
+
+### 🔨 Building ONNX Runtime
+
+The native ONNX Runtime library is built and packaged via the
+`onnxruntime-binaries` module. When running on Linux or macOS it uses a
+Docker image to compile the library; on Windows the build runs directly
+through `build-native.bat`.
+
+Generate the JAR containing the platform specific binaries with:
+
+```bash
+./gradlew :onnxruntime-native:onnxruntime-binaries:nativeJar
+```
+
+You can specify a different target or enable CUDA by supplying the
+`nativeTarget` and `enableCuda` properties. The extraction task creates a
+temporary container whose name is controlled by the `containerName`
+property.
