@@ -20,3 +20,13 @@ Run the program with:
 
 By default it looks for JSON files in `en/` and writes translated
 output to `translated/`.
+
+### 📦 Embedded Libraries
+
+This project includes [ONNX Runtime](https://github.com/microsoft/onnxruntime), which is:
+
+- Licensed under the [MIT License](https://github.com/microsoft/onnxruntime/blob/main/LICENSE)
+- Copyright © Microsoft Corporation
+- Bundled for convenience in `resources/native` (`onnxruntime.dll` / `libonnxruntime.so`)
+
+A copy of the original license is included in [`LICENSE-ONNX.txt`](./src/main/resources/native/LICENSE-ONNX.txt).

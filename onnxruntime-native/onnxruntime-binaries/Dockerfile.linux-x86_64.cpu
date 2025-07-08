@@ -1,0 +1,19 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        git cmake build-essential wget curl python3 python3-pip libprotobuf-dev protobuf-compiler \
+        libopencv-dev unzip patchelf && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /build
+
+RUN git clone --recursive https://github.com/microsoft/onnxruntime && \
+    cd onnxruntime && \
+    ./build.sh --config Release \
+               --build_shared_lib \
+               --parallel \
+               --skip_tests && \
+    cp build/Linux/Release/libonnxruntime.so /build/libonnxruntime.so

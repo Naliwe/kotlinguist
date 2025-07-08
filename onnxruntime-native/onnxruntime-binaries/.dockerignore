@@ -1,0 +1,22 @@
+# Ignore everything not required for building ONNX
+
+.gradle
+build
+out
+.idea
+*.iml
+*.log
+*.tmp
+.DS_Store
+*.jar
+*.zip
+*.tar.gz
+*.swp
+
+# Ignore version control
+.git
+.gitignore
+
+# Ignore editor-specific metadata
+.vscode
+*.code-workspace

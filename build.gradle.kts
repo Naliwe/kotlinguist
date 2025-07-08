@@ -15,6 +15,9 @@ dependencies {
 
     implementation(libs.onnxruntime)
     implementation(libs.tokenizers)
+    implementation(libs.kotlinx.coroutines)
+
+    implementation(project(path = ":onnxruntime-native"))
 }
 
 application {
