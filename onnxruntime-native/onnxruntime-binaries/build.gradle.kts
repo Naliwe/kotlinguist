@@ -73,7 +73,7 @@ publishing {
             pom {
                 name.set("ONNX Runtime Native")
                 description.set("Native ONNX Runtime packaged for $targetClassifier")
-                url.set("https://github.com/yourorg/yourrepo")
+                url.set("https://github.com/naliwe/kotlinguist")
             }
         }
     }

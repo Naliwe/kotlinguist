@@ -10,15 +10,15 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":onnxruntime-native"))                         // includes OrtNativeLoader
-    runtimeOnly(project(":onnxruntime-native:onnxruntime-binaries"))       // includes .so/.dll
+    implementation(project(":onnxruntime-native"))
+    runtimeOnly(project(":onnxruntime-native:onnxruntime-binaries"))
 }
 
 tasks.named<ShadowJar>("shadowJar") {
-    archiveClassifier.set("")  // no '-all' suffix
-    mergeServiceFiles()        // if needed for SPI
+    archiveClassifier.set("")
+    mergeServiceFiles()
     manifest {
-        attributes["Main-Class"] = "com.yourcompany.onnxruntime.MainKt" // or any class with `main()`
+        attributes["Main-Class"] = "me.naliwe.onnxruntime.MainKt"
     }
 }
 

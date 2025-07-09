@@ -12,10 +12,12 @@ import java.nio.file.Path
 
 fun main(args: Array<String>): Unit = runBlocking {
     val parser = ArgParser("translate")
+
     val input by parser.option(ArgType.String, shortName = "i", description = "Input directory").required()
     val output by parser.option(ArgType.String, shortName = "o", description = "Output directory").required()
     val langs by parser.option(ArgType.String, shortName = "l", description = "Target languages (comma-separated)")
         .required()
+
     parser.parse(args)
 
     val useCase = TranslationUseCase(
