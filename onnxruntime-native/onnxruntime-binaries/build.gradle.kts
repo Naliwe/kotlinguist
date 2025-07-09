@@ -17,7 +17,7 @@ val outputFile = layout.buildDirectory.file("libonnxruntime-$targetClassifier.$l
 
 val dockerFileName = "Dockerfile.$targetClassifier" + if (enableCuda) ".cuda" else ".cpu"
 val dockerImage = "onnxruntime-builder:$targetClassifier" + if (enableCuda) "-cuda" else "-cpu"
-val containerName = "onnxruntime-tmp-$targetClassifier" + if (enableCuda) "-cuda" else "-cpu"
+val containerNameValue = "onnxruntime-tmp-$targetClassifier" + if (enableCuda) "-cuda" else "-cpu"
 
 val buildDockerImage by tasks.registering(Exec::class) {
     group = "build"
@@ -43,7 +43,7 @@ val extractSo = tasks.register<ExtractSoTask>("extractSo") {
     dependsOn(buildDockerImage)
     onlyIf { !isWindows }
     image.set(dockerImage)
-    containerName.set(containerName)
+    containerName.set(containerNameValue)
     output.set(outputFile)
 }
 
